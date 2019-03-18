@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Advert;
+use App\Entity\Person;
+use App\Entity\Image;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class AdvertType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add( 'title', TextType::class, [
+                    'label'    => 'Titre'
+                ])
+            ->add( 'content', TextareaType::class, [
+                    'label'    => 'Contenu'
+                ])
+            ->add( 'image', ImageType::class)
+            ->add( 'author', EntityType::class, [
+                    'label'    => 'Auteur',
+                    'class' => Person::class,
+                    'choice_label' => function ($author) {
+                        return $author->getDisplayName();
+                    },
+                ])
+            ->add( 'published', CheckboxType::class, [
+                    'label'    => 'Show this entry publicly?',
+                    'required' => false,
+                ])
+            ->add( 'submit', SubmitType::class, [
+                    'label'    => 'Créer'
+                ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Advert::class,
+        ]);
+    }
+}

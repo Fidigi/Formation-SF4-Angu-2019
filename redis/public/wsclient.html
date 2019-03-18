@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<head>
+<meta charset=utf-8>
+<title>WebSocket Example</title>
+
+<script>
+
+  var ws = new WebSocket("ws://localhost:8080");
+  var context;
+  var image = new Image();
+
+  window.onload=function() {
+    canvas = document.getElementById("picture");
+  }
+
+  function dispMessage(str) {
+   document.getElementById("message").innerHTML += str;
+  }
+
+  ws.onopen = function (event) {
+	  ws.send('{ "type":"text", "content":"New Connection!!<br>"}' ); 
+  };
+
+  ws.onmessage=function(event) { 
+	  var message = JSON.parse(event.data);
+  	switch(message.type) {
+			case "text":
+				dispMessage(message.content);
+				break;
+	  }
+  };
+
+  function helloServer()
+  {
+    content = document.getElementById("sTxt").value+"<br>";
+    ws.send('{ "type": "text", "content":"'+content+'"}'); 
+    document.getElementById("message").innerHTML += content;
+  }
+
+</script>
+</head>
+<body>
+<h1>WebSocket Example</h1>
+
+<p>Using WebSocket, exchanging data with a server.</p>
+<form>
+  <input type="text" id="sTxt">
+  <input type="button" onclick="helloServer()" value="Send">
+</form>
+<br>
+
+<fieldset><legend>Message</legend> 
+  <div id="message"></div>
+</fieldset>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.music {
+    .card, .pagination {
+        margin-top: 0.5rem;
+    }
+    .btn{ display: inline-block;  margin: 0 0.6rem; }
+}
+.glyph-icon {
+   height: .75rem;
+   display: inline-block; margin:0.25rem;
+}
+.card-selected{
+    cursor: pointer;
+}
