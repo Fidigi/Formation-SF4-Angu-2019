@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+Name : {{ movie.name|e }}<br>
+Realse Date : {{ movie.releaseDate|date("d M Y", "Europe/Paris") }}<br>
+Director : {{ movie.director|e }}<br>
+Actors : <br>
+{% for actor in movie.actors %}
+	- {{ actor.name|e }}<br>
+{% endfor %}
+<br>
+<a href="{{ app.request.headers.get('referer') }}">retour</a>
+
+{% endblock %}
